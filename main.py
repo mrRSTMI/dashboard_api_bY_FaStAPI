@@ -5,7 +5,7 @@ from controllers.admin_route import router
 from scalar_fastapi import get_scalar_api_reference
 
 app = FastAPI(docs_url=None, redoc_url=None)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(router=router)
 
 
