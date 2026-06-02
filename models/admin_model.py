@@ -1,6 +1,7 @@
 from core.database import Base, engine
 from sqlalchemy import Integer, String, Column,Boolean
 
+
 class Admin(Base):
     __tablename__ = "admin"
 
