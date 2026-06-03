@@ -12,7 +12,7 @@ router = APIRouter(
 
 
 
-@router.get("/")
+@router.get("/", response_model=list[ResponseAdmin])
 async def get_admin(skip : int = 0, limit: int = 100,db:Session = Depends(get_db)):
    return get_admin_service(db=db,skip=skip,limit=limit)
 
@@ -20,7 +20,7 @@ async def get_admin(skip : int = 0, limit: int = 100,db:Session = Depends(get_db
 async def get_admin_by_id(ID:int,db:Session = Depends(get_db)):
     return get_admin_service_by_id(ID=ID, db=db)
 
-@router.post("/new-admin", response_model=NewAdmin)
+@router.post("/new-admin", response_model=ResponseAdmin)
 async def new_admin(new_admin : NewAdmin, db: Session = Depends(get_db)):
     return new_admin_service(new_admin=new_admin,db=db)
 
