@@ -8,6 +8,7 @@ class ResponseAdmin(BaseModel):
     user_name: str
     is_write: bool
     changer_access: bool
+    id:int
 
 
 class NewAdmin(BaseModel):
