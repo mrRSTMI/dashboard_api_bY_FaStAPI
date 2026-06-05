@@ -1,6 +1,6 @@
 from models.admin_model import Admin
 from fastapi import HTTPException
-from repositories.admin_db import get_admin_db_all, get_admin_db_by_id,new_admin_db
+from repositories.admin_db import get_admin_db_all, get_admin_db_by_id, new_admin_db
 
 
 def get_admin_service(db, skip, limit):
@@ -13,7 +13,7 @@ def get_admin_service(db, skip, limit):
 
 
 def get_admin_service_by_id(db, ID):
-    admin_id = get_admin_db_by_id(db,ID)
+    admin_id = get_admin_db_by_id(db, ID)
     if not admin_id:
         raise HTTPException(status_code=404, detail=f" === id {ID} is not found === ")
     if admin_id:
@@ -26,23 +26,24 @@ def new_admin_service(new_admin, db):
         raise HTTPException(
             status_code=406, detail=f" * * * === your admin is exist === * * *"
         )
-    if not admin_item:
-        admin_new = Admin(
-            name_admin=new_admin.name_admin,
-            email=new_admin.email,
-            user_name=new_admin.user_name,
-            password=new_admin.password,
-            is_write=new_admin.is_write,
-            changer_access=new_admin.changer_access,
-        )
-        db.add(admin_new)
-        db.commit()
-        db.refresh(admin_new)
-        return new_admin
+    # if not admin_item:
+    #     admin_new = Admin(
+    #         name_admin=new_admin.name_admin,
+    #         email=new_admin.email,
+    #         user_name=new_admin.user_name,
+    #         password=new_admin.password,
+    #         is_write=new_admin.is_write,
+    #         changer_access=new_admin.changer_access,
+    #     )
+    admin_new = Admin(**new_admin.model_dump())
+    db.add(admin_new)
+    db.commit()
+    db.refresh(admin_new)
+    return admin_new
 
 
 def update_admin_service(db, update_admin, ID):
-    admin_item = get_admin_db_by_id(db,ID)
+    admin_item = get_admin_db_by_id(db, ID)
     if not admin_item:
         raise HTTPException(status_code=404, detail=f" === id {ID} is not found === ")
 
@@ -58,7 +59,7 @@ def update_admin_service(db, update_admin, ID):
 
 
 def delete_admin_service(db, ID):
-    admin_item = get_admin_db_by_id(db,ID)
+    admin_item = get_admin_db_by_id(db, ID)
     if not admin_item:
         raise HTTPException(status_code=404, detail=f" === id {ID} is not found === ")
     if admin_item:
