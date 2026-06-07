@@ -1,6 +1,18 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from pydantic.alias_generators import to_camel
 from typing import Optional
+
+
+class BaseAdminModel(BaseModel):
+    model_config = ConfigDict(
+            str_strip_whitespace=True,
+            validate_assignment=True,
+            validate_default=True,
+            validate_by_alias=True,
+            alias_generator=to_camel,
+            populate_by_name=True,
+            extra="forbid",
+        )
 
 
 class ResponseAdmin(BaseModel):
@@ -16,16 +28,14 @@ class ResponseAdmin(BaseModel):
     id: int
 
 
-class NewAdmin(BaseModel):
-    model_config = ConfigDict(
-        str_strip_whitespace=True,
-        validate_assignment=True,
-        validate_default=True,
-        alias_generator=to_camel,
-        populate_by_name=True,
-        extra="forbid",
-    )
-    name_admin: str = Field("ali", min_length=2)
+class NewAdmin(BaseAdminModel):
+    name_admin: str = Field(
+        "ali",
+        min_length=2,
+        validation_alias=AliasChoices("nameAdmin", "Nameadmin", "NameAdmin"),
+        serialization_alias="nameAdmin"
+        )
+
     email: str = "ali124@gmail.com"
     user_name: str = Field("MrALI", min_length=3)
     password: str = Field(min_length=8)
@@ -33,16 +43,8 @@ class NewAdmin(BaseModel):
     changer_access: bool = False
 
 
-class UpdateAdmin(BaseModel):
-    model_config = ConfigDict(
-        str_strip_whitespace=True,
-        validate_assignment=True,
-        validate_default=True,
-        alias_generator=to_camel,
-        populate_by_name=True,
-        coerce_numbers_to_str=True,
-        extra="forbid",
-    )
+class UpdateAdmin(BaseAdminModel):
+
     name_admin: Optional[str] = Field(None, min_length=2)
     email: Optional[str] = None
     user_name: Optional[str] = Field(None, min_length=3)
