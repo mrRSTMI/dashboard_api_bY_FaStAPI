@@ -26,15 +26,6 @@ def new_admin_service(new_admin, db):
         raise HTTPException(
             status_code=406, detail=f" * * * === your admin is exist === * * *"
         )
-    # if not admin_item:
-    #     admin_new = Admin(
-    #         name_admin=new_admin.name_admin,
-    #         email=new_admin.email,
-    #         user_name=new_admin.user_name,
-    #         password=new_admin.password,
-    #         is_write=new_admin.is_write,
-    #         changer_access=new_admin.changer_access,
-    #     )
     admin_new = Admin(**new_admin.model_dump())
     db.add(admin_new)
     db.commit()

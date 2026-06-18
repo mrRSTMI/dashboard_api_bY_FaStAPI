@@ -5,14 +5,14 @@ from typing import Optional
 
 class BaseAdminModel(BaseModel):
     model_config = ConfigDict(
-            str_strip_whitespace=True,
-            validate_assignment=True,
-            validate_default=True,
-            validate_by_alias=True,
-            alias_generator=to_camel,
-            populate_by_name=True,
-            extra="forbid",
-        )
+        str_strip_whitespace=True,
+        validate_assignment=True,
+        validate_default=True,
+        validate_by_alias=True,
+        alias_generator=to_camel,
+        populate_by_name=True,
+        extra="forbid",
+    )
 
 
 class ResponseAdmin(BaseModel):
@@ -34,7 +34,7 @@ class NewAdmin(BaseAdminModel):
         min_length=2,
         validation_alias=AliasChoices("nameAdmin", "Nameadmin", "NameAdmin"),
         serialization_alias="nameAdmin"
-        )
+    )
 
     email: str = "ali124@gmail.com"
     user_name: str = Field("MrALI", min_length=3)
